@@ -13,11 +13,17 @@ $ ./stacky.py
 Usage: stacky <command>
     deployments - list stacktach deployments
     events      - list of unique event names
-    watch       - watch <deployment id> <event-name> <polling sec>
-                   deployment id 0 = all
-                   event-name empty = all
-                   polling = 2s
-    show    - inspect event ####
+    watch   - watch <deployment id> <service-name> <event-name> <polling sec>
+              deployment id :let this option be "all" if you want to watch all
+              deployments or just a specific deployment-id
+              service-name : name of whichever service you want to poll,
+              i.e nova, glance or generic
+              event-name :  = If not given a specific event, it will keep a
+              watch on all events.
+              polling : 2s default or can be specified as number of seconds
+    show    - 'show <service-name> <event-id>'
+              service-name :name of whichever service you want to poll,
+              i.e nova, glance or generic, default will be nova
     uuid    - inspect events with uuid xxxxx
     summary - show summarized timings for all events
     timings - show timings for <event-name> (no .start/.end)
@@ -31,6 +37,9 @@ Usage: stacky <command>
     report  - get report <id>
     kpi     - crunch KPIs
     hosts   - list all host names
+    search  - 'search <service-name> <field> <value>'
+              search for rawdata events belonging to any service - nova, glance
+              or generic according to any field and its value.
 ```
 
 NOTE: *kpi* and *watch* commands are currently disabled. Will be fixed soon.
@@ -85,7 +94,7 @@ Events related to bafe36de-aba8-46e8-9fe7-15b490e4cc01
 ### Get details for an event
 Take an event id from the above example and show its details:
 ```
-$ python stacky.py show 16373586
+$ python stacky.py show nova 16373586
 +------------+-----------------------------------------------------+
 |    Key     |                        Value                        |
 +------------+-----------------------------------------------------+
