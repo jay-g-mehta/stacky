@@ -92,7 +92,7 @@ def show_timings_for_uuid(uuid):
     return get_json(r)
 
 
-def related_to_uuid(uuid):
+def related_to_uuid(uuid, service):
     params = {'uuid': uuid, 'service': service}
     r = _check(requests.get(STACKTACH + ("/stacky/uuid/" ),
                params=params))
@@ -206,8 +206,9 @@ if __name__ == '__main__':
 
     if cmd == 'uuid':
         uuid = safe_arg(2)
+        service = 'nova'
         print "Events related to", uuid
-        dump_results(related_to_uuid(uuid))
+        dump_results(related_to_uuid(uuid, service))
         dump_results(show_timings_for_uuid(uuid))
 
     if cmd == 'timings':
@@ -274,7 +275,7 @@ if __name__ == '__main__':
             data, uuid = results
             dump_results(key_values)
             if uuid:
-                dump_results(related_to_uuid(uuid))
+                dump_results(related_to_uuid(uuid, service))
         else:
             print "Server reported: ObjectDoesNotExist"
 
