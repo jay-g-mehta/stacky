@@ -274,6 +274,10 @@ if __name__ == '__main__':
             key_values = results.pop(0)
             data, uuid = results
             dump_results(key_values)
+
+            payload = json.loads(data)
+            print json.dumps(payload, indent=2)
+
             if uuid:
                 dump_results(related_to_uuid(uuid, service))
         else:
