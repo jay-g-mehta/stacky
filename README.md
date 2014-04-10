@@ -1,6 +1,6 @@
 # stacky
 
-Command line interface to StackTach (https://github.com/rackspace/stacktach)
+Command line interface to StackTach (https://github.com/rackerlabs/stacktach)
 
 set STACKTACH_URL to point to your StackTach web server.
 
