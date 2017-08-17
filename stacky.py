@@ -168,6 +168,11 @@ def _str_to_datetime(str):
     return datetime.datetime.strptime(str, "%Y-%m-%d %H:%M:%S")
 
 
+def datetime_str_to_epoch(user_time_str):
+    d = datetime.datetime.strptime(user_time_str, "%Y-%m-%d %H:%M:%S")
+    return (d - datetime.datetime(1970, 1, 1)).total_seconds()
+
+
 if __name__ == '__main__':
     if len(sys.argv) == 1:
         print """Usage: stacky <command>
@@ -235,6 +240,7 @@ if __name__ == '__main__':
 
     if cmd == 'search':
         limit = None
+        when_min = when_max = None
         if len(sys.argv) >= 4:
             field = safe_arg(3)
             value = safe_arg(4)
@@ -242,8 +248,14 @@ if __name__ == '__main__':
         if len(sys.argv) == 6:
             limit = safe_arg(5)
             limit = sys.argv[5]
+        if len(sys.argv) == 8:
+            when_min = safe_arg(6)
+            when_max = safe_arg(7)
 
         params = {'field': field, 'value': value}
+        if when_min is not None:
+            params['when_min'] = datetime_str_to_epoch(when_min)
+            params['when_max'] = datetime_str_to_epoch(when_max)
         if limit:
             params['limit'] = limit
         params['service'] = service
